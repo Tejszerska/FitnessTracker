@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitnessTracker - measure your strength</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap-icons.css" />
+
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
@@ -52,7 +54,7 @@
                         <a class="nav-link" href="plans.php">Plany</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="exercises.php">Ćwiczenia</a>
+                        <a class="nav-link" href="/exercises">Exercises</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="overview.php">Przegląd</a>

@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Exercise;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
+
+class ExcerciseService
+{
+
+    public function getAll(): Collection
+    {
+        return Exercise::all();
+    }
+
+    public function addToDb(Request $request)
+    {
+        $model = new Exercise();
+        $model->user_id = $request->input("user_id");
+        /*
+        just for now - later use:
+        $model->user_id = auth()->id();
+        */
+        $model->name = $request->input('name');
+        $model->muscle_group = $request->input('muscle_group');
+        $model->is_active = true;
+
+        $model->has_weight = $request->has('has_weight');
+        $model->has_reps = $request->has('has_reps');
+        $model->has_duration = $request->has('has_duration');
+        $model->save();
+    }
+
+    public function getById(int $id)
+    {
+        return Exercise::find($id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $model = Exercise::find($id);
+        $model->user_id = $request->input("user_id");
+        /*
+        just for now - later use:
+        $model->user_id = auth()->id();
+        */
+        $model->name = $request->input('name');
+        $model->muscle_group = $request->input('muscle_group');
+        $model->is_active = true;
+
+        $model->has_weight = $request->has('has_weight');
+        $model->has_reps = $request->has('has_reps');
+        $model->has_duration = $request->has('has_duration');
+        $model->save();
+    }
+}
