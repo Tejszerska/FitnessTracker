@@ -15,16 +15,11 @@
             <div class="card-body p-4">
                 <h2 class="text-center mb-4 h4">Editing an exercise</h2>
 
-                {{--
-                <?php if ($blad_msg): ?>
-                    <div class="alert alert-danger py-2"><?php echo htmlspecialchars($blad_msg); ?></div>
-                <?php endif; ?>
-
-                <?php if ($sukces_msg): ?>
-                    <div class="alert alert-success py-2"><?php echo htmlspecialchars($sukces_msg); ?></div>
-                <?php endif; ?>
-                --}}
-
+                @if(session('error'))
+                <div class="alert alert-danger py-2">
+                    {{ session('error') }}
+                </div>
+                @endif
 
                 <form method="POST">
                     @csrf

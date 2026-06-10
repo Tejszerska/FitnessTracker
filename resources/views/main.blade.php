@@ -51,7 +51,7 @@
                         <a class="nav-link" href="index.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="plans.php">Plany</a>
+                        <a class="nav-link" href="/plans">Plans</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/exercises">Exercises</a>
