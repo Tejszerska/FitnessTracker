@@ -19,3 +19,6 @@ Route::post("/exercises/add", [ExcerciseController::class, "post"]);
 
 Route::get("/exercises/edit/{id}", [ExcerciseController::class, "edit"]);
 Route::post("/exercises/edit/{id}", [ExcerciseController::class, "update"]);
+
+
+Route::get("/exercises/delete/{id}", [ExcerciseController::class, "remove"]);

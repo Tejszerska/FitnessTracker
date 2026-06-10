@@ -32,20 +32,37 @@ class ExcerciseController extends Controller
         $this->service->addToDb($request);
 
         $models = $this->service->getAll();
-        return view('exercise.create', ['muscleGroups' => MuscleGroup::cases()]);
+        return redirect('/exercises')->with('success', 'Exercise has been created.');
     }
 
 
     public function edit(int $id)
     {
         $model = $this->service->getById($id);
+        if ($model === null) {
+            return redirect('/exercises')->with('error', 'Exercise not found.');
+        }
         return view('exercise.edit', ["model" => $model, 'muscleGroups' => MuscleGroup::cases()]);
     }
 
     public function update(Request $request, int $id)
     {
-        $model = $this->service->update($request, $id);
+        $this->service->update($request, $id);
+
         $models = $this->service->getAll();
-        return view('exercise.index', ["models" => $models, 'muscleGroups' => MuscleGroup::cases()]);
+        return redirect('/exercises')->with('success', 'Exercise has been updated.');
+    }
+
+    public function remove(int $id)
+    {
+        $model = $this->service->getById($id);
+        if ($model === null) {
+            return redirect('/exercises')->with('error', 'Exercise not found.');
+        }
+
+        $this->service->remove($id);
+
+        $models = $this->service->getAll();
+        return redirect('/exercises')->with('success', 'Exercise has been deleted.');
     }
 }

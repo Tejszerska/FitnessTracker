@@ -11,7 +11,7 @@ class ExcerciseService
 
     public function getAll(): Collection
     {
-        return Exercise::all();
+        return Exercise::where("is_active", "=", true)->get();
     }
 
     public function addToDb(Request $request)
@@ -42,6 +42,7 @@ class ExcerciseService
         $model = Exercise::find($id);
         $model->user_id = $request->input("user_id");
         /*
+        @TODO AUTH
         just for now - later use:
         $model->user_id = auth()->id();
         */
@@ -53,5 +54,12 @@ class ExcerciseService
         $model->has_reps = $request->has('has_reps');
         $model->has_duration = $request->has('has_duration');
         $model->save();
+    }
+
+    public function remove(int $id)
+    {
+        $exerciseToRemove = Exercise::find($id);
+        $exerciseToRemove->is_active = 0;
+        $exerciseToRemove->save();
     }
 }

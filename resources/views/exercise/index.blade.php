@@ -37,11 +37,19 @@
                 </div>
             </form>
         </div>
-        <!--
-                <div class="alert alert-success py-2">Exercise deleted.</div>
-                <div class="alert alert-danger py-2">Cannot delete this exercise because it is part of a workout plan or history!</div>
-                <div class="alert alert-danger py-2">An unexpected database error occurred.</div>
-            -->
+
+        @if(session('success'))
+        <div class="alert alert-success py-2">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger py-2">
+            {{ session('error') }}
+        </div>
+        @endif
+
         <div class="card border-0 shadow-sm">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
@@ -63,6 +71,7 @@
                                 title="Delete exercise">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
+
                             <a href="/exercises/edit/{{ $model->id }}"
                                 class="text-info text-decoration-none"
                                 onclick=""
