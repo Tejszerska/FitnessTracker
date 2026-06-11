@@ -62,4 +62,23 @@ class ExcerciseService
         $exerciseToRemove->is_active = 0;
         $exerciseToRemove->save();
     }
+
+    public function getFiltered(Request $request): Collection
+    {
+        $query = Exercise::where('is_active', true);
+
+        if ($request->filled('filter_group')) {
+            $query->where('muscle_group', $request->input('filter_group'));
+        }
+
+        if ($request->filled('filter_source') && $request->input('filter_source') !== 'all') {
+            if ($request->input('filter_source') === 'system') {
+                $query->whereNull('user_id');
+            } elseif ($request->input('filter_source') === 'user') {
+                $query->whereNotNull('user_id');
+            }
+        }
+
+        return $query->get();
+    }
 }

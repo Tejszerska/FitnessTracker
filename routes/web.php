@@ -33,7 +33,18 @@ Route::post("/plans/edit/{id}", [PlanController::class, "update"]);
 
 Route::get("/plans/delete/{id}", [PlanController::class, "remove"]);
 
-// PLAN_ITEMS
+// adding exercise to the plan
+Route::get("/plans/manage/{id}", [PlanController::class, "addExercise"]);
+Route::post("/plans/manage/{id}/add-exercise/", [PlanController::class, "addExerciseToDB"]);
 
-Route::get("/plans/manage/{id}", [PlanController::class, "manage"]);
-Route::post("/plans/manage/{id}", [PlanController::class, "saveManaged"]);
+// change series value in a plan_item
+Route::get("/plan/increment-series/{itemId}", [PlanController::class, "incrementSeries"]);
+Route::get("/plan/decrement-series/{itemId}", [PlanController::class, "decrementSeries"]);
+
+
+// change order value in a plan_item
+Route::get("/plan/increment-order/{itemId}", [PlanController::class, "incrementOrder"]);
+Route::get("/plan/decrement-order/{itemId}", [PlanController::class, "decrementOrder"]);
+
+// remove plan item (exercise) from plan
+Route::get("/plan/remove-exercise/{itemId}", [PlanController::class, "removeExercise"]);

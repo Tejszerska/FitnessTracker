@@ -7,18 +7,27 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="plans.php" class="text-decoration-none">Plans</a></li>
+                <li class="breadcrumb-item"><a href="/plans" class="text-decoration-none">Plans</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Manage {{ $model->name }}</li>
             </ol>
         </nav>
 
         <div class="card shadow-sm border-0 mb-4 overflow-hidden">
 
-            <div class="card-body bg-light border-bottom p-3">
-                <form method="POST" class="d-flex align-items-center gap-2">
-                    @csrf
+            @if(session('success'))
+            <div class="alert alert-success py-2 mb-3">
+                {{ session('success') }}
+            </div>
+            @endif
 
-                    <input type="hidden" name="id" value="{{ $model->plan_id }}">
+            @if(session('error'))
+            <div class="alert alert-danger py-2 mb-3">
+                {{ session('error') }}
+            </div>
+            @endif
+
+            <div class="card-body bg-light border-bottom p-3">
+                <form method="GET" action="/plans/manage/{{ $model->id }}" class="d-flex align-items-center gap-2">
 
                     <div class="fw-bold small text-uppercase text-muted text-nowrap">
                         <i class="bi bi-funnel"></i> Filter:
@@ -28,29 +37,30 @@
                         <select name="filter_group" class="form-select form-select-sm border-0" onchange="this.form.submit()">
                             <option value="">All muscle groups</option>
                             @foreach($muscleGroups as $muscleGroup)
-                            <option value="{{ $muscleGroup->value }}">{{ $muscleGroup->value }}</option>
+                            <option value="{{ $muscleGroup->value }}" {{ request('filter_group') == $muscleGroup->value ? 'selected' : '' }}>
+                                {{ $muscleGroup->value }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
 
-
                     <div class="flex-grow-1">
                         <select name="filter_source" class="form-select form-select-sm border-0" onchange="this.form.submit()">
-                            <option value="all" selected>All</option>
-                            <option value="system">Default</option>
-                            <option value="user">Custom</option>
+                            <option value="all" {{ request('filter_source') == 'all' ? 'selected' : '' }}>All</option>
+                            <option value="system" {{ request('filter_source') == 'system' ? 'selected' : '' }}>Default</option>
+                            <option value="user" {{ request('filter_source') == 'user' ? 'selected' : '' }}>Custom</option>
                         </select>
                     </div>
 
-
-                    <a href="manage-plan/{{ $model->plan_id }}" class="btn btn-link btn-sm text-muted text-decoration-none" title="Clear">
+                    <a href="/plan/add-exercise/{{ $model->id }}" class="btn btn-link btn-sm text-muted text-decoration-none" title="Clear">
                         <i class="bi bi-x-circle"></i>
                     </a>
                 </form>
             </div>
 
             <div class="card-body bg-white p-4">
-                <form method="POST" class="d-flex align-items-end gap-3">
+                <form action="/plans/manage/{{ $model->id }}/add-exercise/"
+                    method="POST" class="d-flex align-items-end gap-3">
                     @csrf
                     <div class="flex-grow-1">
 
@@ -60,7 +70,7 @@
                         <select name="exercise_id" class="form-select form-select-lg" required>
                             @if($exercises->isNotEmpty())
                             @foreach($exercises as $exercise)
-                            <option value="{{ $muscleGroup->value }}">{{ $exercise->name }}</option>
+                            <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
                             @endforeach
                             @else
                             <option value="">No exercises match filtering criteria</option>
@@ -93,20 +103,60 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if($model->planItems->isNotEmpty() )
-                    @foreach($model->planItems() as $exercise)
+                    @if($model->planItems->isNotEmpty())
+                    @foreach($model->planItems as $item)
                     <tr>
-                        <td class="text-center fw-bold text-muted">{{ $exercise->order }}.</td>
-                        <td class="fw-semibold">{{ $exercise->Exercise()->name }}</td>
+                        <td class="text-center fw-bold text-muted">{{ $item->order }}.</td>
+
+                        <td class="fw-semibold">{{ $item->exercise->name }}</td>
+
                         <td class="text-center">
-                            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill">{{ $exercise->series_count }}</span>
+                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                <a href="/plan/decrement-series/{{ $item->id }}"
+                                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 28px; height: 28px;"
+                                    title="Lower series">
+                                    <i class="bi bi-dash-lg"></i>
+                                </a>
+
+                                <span class="badge bg-white text-dark border px-3 py-2 rounded-pill" style="min-width: 40px;">
+                                    {{ $item->series_count }}
+                                </span>
+
+                                <a href="/plan/increment-series/{{ $item->id }}"
+                                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 28px; height: 28px;"
+                                    title="Add series">
+                                    <i class="bi bi-plus-lg"></i>
+                                </a>
+                            </div>
+                        </td>
+
                         </td>
                         <td class="text-end">
-                            <a href="remove-from-plan/{{ $model->id }}"
-                                class="btn btn-sm text-danger"
-                                onclick="return confirm('Remove this exercise from plan?')">
-                                <i class="bi bi-trash3-fill"></i>
-                            </a>
+                            <div class="d-flex align-items-center justify-content-end gap-2">
+
+                                <a href="/plan/decrement-order/{{ $item->id }}"
+                                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 28px; height: 28px;"
+                                    title="Move up">
+                                    <i class="bi bi-arrow-up"></i>
+                                </a>
+
+                                <a href="/plan/increment-order/{{ $item->id }}"
+                                    class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 28px; height: 28px;"
+                                    title="Move down">
+                                    <i class="bi bi-arrow-down"></i>
+                                </a>
+
+                                <a href="/plan/remove-exercise/{{ $item->id }}"
+                                    class="btn btn-sm text-danger ms-2"
+                                    onclick="return confirm('Remove this exercise from plan?')">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+
+                            </div>
                         </td>
                     </tr>
                     @endforeach

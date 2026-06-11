@@ -34,7 +34,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 fw-bold py-2">
-                        Save and add exercises
+                        Choose exercises
                     </button>
                 </form>
             </div>
