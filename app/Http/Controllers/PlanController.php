@@ -39,13 +39,20 @@ class PlanController extends Controller
         return redirect("/plans/manage/{$plan->id}")->with('success', 'Plan created! You can now add exercises.');
     }
 
-    public function edit(int $id)
+    public function edit(int $id, Request $request)
     {
-        $model = $this->service->getById($id);
-        if ($model === null) {
+        $plan = $this->service->getById($id);
+        if ($plan === null) {
             return redirect('/plans')->with('error', 'Plan not found.');
         }
-        return view('plan.edit', ["model" => $model, 'muscleGroups' => MuscleGroup::cases()]);
+
+        $exercises = $this->exerciseService->getFiltered($request);
+
+        return view('plan.edit', [
+            'model' => $plan,
+            'exercises' => $exercises,
+            'muscleGroups' => MuscleGroup::cases(),
+        ]);
     }
 
     public function update(Request $request, int $id)
