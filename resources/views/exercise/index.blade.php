@@ -112,19 +112,6 @@
                         </td>
                     </tr>
                     @endforeach
-                    <!-- do filtrowania
-
-                        <tr>
-
-                            <td colspan="4" class="text-center py-5 text-muted">
-
-                                Brak wyników dla wybranych filtrów.
-
-                            </td>
-
-                        </tr>
-
-                    -->
                 </tbody>
             </table>
         </div>

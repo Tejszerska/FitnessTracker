@@ -43,6 +43,6 @@ class WorkoutController extends Controller
         // dd($setsData);
         $this->service->saveSets($workoutId, $setsData);
 
-        return redirect('/plans')->with('success', 'Workout saved successfully!');
+        return redirect('/history')->with('success', 'Workout saved successfully!');
     }
 }

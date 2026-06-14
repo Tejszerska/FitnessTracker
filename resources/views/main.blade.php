@@ -48,7 +48,7 @@
                 <ul class="navbar-nav ms-auto align-items-center gap-2">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Dashboard</a>
+                        <a class="nav-link" href="/">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/plans">Plans</a>
@@ -57,7 +57,7 @@
                         <a class="nav-link" href="/exercises">Exercises</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="overview.php">Przegląd</a>
+                        <a class="nav-link" href="/history">History</a>
                     </li>
 
                     <li class="nav-item ms-lg-3 border-start ps-lg-3 border-secondary">

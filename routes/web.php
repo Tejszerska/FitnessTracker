@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExcerciseController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\WorkoutController;
-
+use App\Http\Controllers\HistoryController;
 
 
 Route::get("/", [HomeController::class, "index"]);
@@ -27,7 +27,6 @@ Route::get("/exercises/delete/{id}", [ExcerciseController::class, "remove"]);
 // =====
 // PLANS
 // =====
-
 Route::get("/plans", [PlanController::class, "index"]);
 
 Route::get("/plans/add", [PlanController::class, "create"]);
@@ -46,7 +45,6 @@ Route::post("/plans/manage/{id}/add-exercise/", [PlanController::class, "addExer
 Route::get("/plan/increment-series/{itemId}", [PlanController::class, "incrementSeries"]);
 Route::get("/plan/decrement-series/{itemId}", [PlanController::class, "decrementSeries"]);
 
-
 // change order value in a plan_item
 Route::get("/plan/increment-order/{itemId}", [PlanController::class, "incrementOrder"]);
 Route::get("/plan/decrement-order/{itemId}", [PlanController::class, "decrementOrder"]);
@@ -57,7 +55,16 @@ Route::get("/plan/remove-exercise/{itemId}", [PlanController::class, "removeExer
 // =======
 // WORKOUT
 // =======
-
 Route::get("/start-workout/{planId}", [WorkoutController::class, "start"]);
 Route::get("/workout/{workoutId}", [WorkoutController::class, "play"]);
 Route::post("/workout/{workoutId}/finish", [WorkoutController::class, "finish"]);
+
+
+// =======
+// HISTORY
+// =======
+Route::get('/history', [HistoryController::class, 'index']);
+Route::get('/history/{workoutId}', [HistoryController::class, 'show']);
+Route::get('/history/edit/{workoutId}', [HistoryController::class, 'edit']);
+Route::get('/history/edit/{workoutId}/update', [HistoryController::class, 'update']);
+Route::get("/history/delete/{workoutId}", [HistoryController::class, "remove"]);
