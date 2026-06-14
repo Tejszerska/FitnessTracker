@@ -4,13 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExcerciseController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\WorkoutController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
 Route::get("/", [HomeController::class, "index"]);
 
+// =========
 // EXERCISES 
+// =========
 Route::get("/exercises", [ExcerciseController::class, "index"]);
 
 Route::get("/exercises/add", [ExcerciseController::class, "create"]);
@@ -21,7 +23,10 @@ Route::post("/exercises/edit/{id}", [ExcerciseController::class, "update"]);
 
 Route::get("/exercises/delete/{id}", [ExcerciseController::class, "remove"]);
 
+
+// =====
 // PLANS
+// =====
 
 Route::get("/plans", [PlanController::class, "index"]);
 
@@ -48,3 +53,11 @@ Route::get("/plan/decrement-order/{itemId}", [PlanController::class, "decrementO
 
 // remove plan item (exercise) from plan
 Route::get("/plan/remove-exercise/{itemId}", [PlanController::class, "removeExercise"]);
+
+// =======
+// WORKOUT
+// =======
+
+Route::get("/start-workout/{planId}", [WorkoutController::class, "start"]);
+Route::get("/workout/{workoutId}", [WorkoutController::class, "play"]);
+Route::post("/workout/{workoutId}/finish", [WorkoutController::class, "finish"]);

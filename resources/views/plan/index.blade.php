@@ -2,50 +2,43 @@
 
 @section("content")
 
-<div class="container mt-4">
-    <div style="max-width: 800px; margin: 0 auto;">
+<div class="container mt-4 mb-5">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold m-0 h3">My workout plans</h2>
-            <a href="/plans/add" class="btn btn-primary shadow-sm fw-bold">
-                <i class="bi bi-plus-lg"></i> Add a plan
-            </a>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold m-0 h3">My workout plans</h2>
+        <a href="/plans/add" class="btn btn-primary shadow-sm fw-bold">
+            <i class="bi bi-plus-lg"></i> Add a plan
+        </a>
+    </div>
 
-        @if(session('success'))
-        <div class="alert alert-success py-2">
-            {{ session('success') }}
-        </div>
-        @endif
+    @if(session('success'))
+    <div class="alert alert-success py-2">
+        {{ session('success') }}
+    </div>
+    @endif
 
-        @if(session('error'))
-        <div class="alert alert-danger py-2">
-            {{ session('error') }}
-        </div>
-        @endif
+    @if(session('error'))
+    <div class="alert alert-danger py-2">
+        {{ session('error') }}
+    </div>
+    @endif
 
-        <div class="d-flex flex-column gap-3">
-            @if($models->isNotEmpty())
-            @foreach($models as $model)
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+    <div class="row g-4"> @if($models->isNotEmpty())
+        @foreach($models as $model)
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4 d-flex flex-column">
 
-                    <div>
-                        <h5 class="fw-bold text-primary mb-1">{{ $model->name }}</h5>
-                        <div class="text-muted small">
-                            <a href="**********************" class="text-decoration-none text-secondary">
-                                <i class="bi bi-pencil-square"></i> Edit exercises
-                        </div>
-                    </div>
+                    <h5 class="fw-bold text-primary mb-4 text-center">{{ $model->name }}</h5>
 
-                    <div class="d-flex align-items-center gap-2">
-                        <a href=" **** **** **** TODO *** *** *** *** " class="btn btn-success fw-bold px-4 shadow-sm">
+                    <div class="mt-auto d-flex flex-column gap-2">
+                        <a href="/start-workout/{{ $model->id }}" class="btn btn-success fw-bold w-100 shadow-sm py-2">
                             START <i class="bi bi-play-fill"></i>
                         </a>
 
-                        <div class="btn-group">
+                        <div class="btn-group w-100 shadow-sm">
                             <a href="/plans/edit/{{ $model->id }}" class="btn btn-light border" title="Edit">
-                                <i class="bi bi-gear-fill"></i>
+                                <i class="bi bi-gear-fill text-secondary"></i>
                             </a>
                             <a href="/plans/delete/{{ $model->id }}"
                                 class="btn btn-light border text-danger"
@@ -58,18 +51,22 @@
 
                 </div>
             </div>
-            @endforeach
-            @else
-            <div class="text-center py-5 bg-white rounded shadow-sm border">
+        </div>
+        @endforeach
+
+        @else
+        <div class="col-12">
+            <div class="text-center py-5 bg-white rounded shadow-sm border" style="max-width: 600px; margin: 0 auto;">
                 <div class="mb-3">
                     <i class="bi bi-journal-plus display-4 text-muted opacity-50"></i>
                 </div>
-                <h5 class="text-muted">No workout plan availible.</h5>
+                <h5 class="text-muted">No workout plan available.</h5>
                 <p class="text-muted small mb-4">Create your first workout plan!</p>
                 <a href="/plans/add" class="btn btn-primary px-4">Create</a>
             </div>
-            @endif
         </div>
+        @endif
+
     </div>
 </div>
 

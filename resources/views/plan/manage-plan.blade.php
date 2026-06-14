@@ -172,7 +172,7 @@
         </div>
 
         <div class="mt-4 text-center">
-            <a href="start-workout/{{ $model->id }}" class="btn btn-success btn-lg px-5 shadow fw-bold rounded-pill">
+            <a href="/start-workout/{{ $model->id }}" class="btn btn-success btn-lg px-5 shadow fw-bold rounded-pill">
                 STAR WORKOUT NOW! <i class="bi bi-play-fill"></i>
             </a>
         </div>

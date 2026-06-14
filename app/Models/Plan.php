@@ -12,4 +12,5 @@ class Plan extends Model
             ->where('is_active', true)
             ->orderBy('order', 'asc');
     }
+    
 }
