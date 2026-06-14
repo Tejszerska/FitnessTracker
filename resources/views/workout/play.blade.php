@@ -18,7 +18,7 @@
 
             @foreach($plan->planItems as $item)
             @php
-            $ex = $item->exercise; // Skrót dla wygody
+            $ex = $item->exercise;
             @endphp
 
             <div class="card mb-4 shadow-sm border-0">
@@ -48,7 +48,7 @@
 
                                     @if($ex->has_weight)
                                     <td class="p-1">
-                                        <input type="number" step="0.25"
+                                        <input type="number"
                                             name="sets[{{ $ex->id }}][{{ $i }}][weight]"
                                             class="form-control form-control-sm text-center">
                                     </td>
@@ -64,7 +64,7 @@
 
                                     @if($ex->has_duration)
                                     <td class="p-1">
-                                        <input type="number" step="1"
+                                        <input type="number"
                                             name="sets[{{ $ex->id }}][{{ $i }}][duration_seconds]"
                                             class="form-control form-control-sm text-center">
                                     </td>
