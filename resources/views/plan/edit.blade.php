@@ -28,7 +28,7 @@
                 </div>
                 @endif
 
-                <form method="POST">
+                <form method="POST" action="/plans/manage/{{ $model->id }}/update">
                     @csrf
                     <div class="mb-4">
                         <label for="plan_name" class="form-label small fw-bold">Plan's name</label>
@@ -37,7 +37,7 @@
                             id="plan_name"
                             class="form-control"
                             placeholder="eg. Split"
-                            value="{{ old('name', $model->name) }}"
+                            value="{{ old('plan_name', $model->name) }}"
                             required>
                     </div>
 
@@ -80,7 +80,7 @@
             </div>
 
             <div class="card-body bg-white p-4">
-                <form action="/plan/add-exercise/{{ $model->id }}" method="POST" class="d-flex align-items-end gap-3">
+                <form action="/plans/manage/{{ $model->id }}/add-exercise/" method="POST" class="d-flex align-items-end gap-3">
                     @csrf
 
                     <div class="flex-grow-1">
@@ -89,8 +89,11 @@
                         <label class="small fw-bold text-primary mb-1">{{ $exercises->count() }} exercises </label>
                         <select name="exercise_id" class="form-select form-select-lg" required>
                             @if($exercises->isNotEmpty())
+                            <option value="" disabled {{ old('exercise_id') === null ? 'selected' : '' }}>Select exercise...</option>
                             @foreach($exercises as $exercise)
-                            <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
+                            <option value="{{ $exercise->id }}" {{ old('exercise_id') == $exercise->id ? 'selected' : '' }}>
+                                {{ $exercise->name }}
+                            </option>
                             @endforeach
                             @else
                             <option value="">No exercises match filtering criteria</option>
@@ -100,7 +103,7 @@
 
                     <div style="width: 120px;">
                         <label class="small fw-bold text-muted mb-1">Series</label>
-                        <input type="number" name="series_count" class="form-control form-control-lg" value="3" min="1" required>
+                        <input type="number" name="series_count" class="form-control form-control-lg" value="{{ old('series_count', 3) }}" min="1" required>
                     </div>
 
                     <div>

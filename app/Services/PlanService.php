@@ -16,6 +16,11 @@ class PlanService
 
     public function addToDb(Request $request)
     {
+        $validated = $request->validate([
+            'plan_name' => 'required|string|min:3|max:100',
+        ]);
+
+
         $model = new Plan();
         $model->user_id = "6"; // @TODO: auth()->id();
         $model->name = $request->input('plan_name');
@@ -31,6 +36,11 @@ class PlanService
 
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'plan_name' => 'required|string|min:3|max:100',
+        ]);
+
+
         $model = Plan::find($id);
         $model->name = $request->input('plan_name');
         $model->save();
@@ -45,9 +55,9 @@ class PlanService
 
     public function addExerciseToPlan(int $planId, Request $request)
     {
-        $request->validate([
-            'exercise_id' => 'required|exists:exercises,id',
-            'series_count' => 'required|integer|min:1',
+        $validated = $request->validate([
+            'exercise_id' => 'required|integer|exists:exercises,id',
+            'series_count' => 'required|integer|min:1|max:20',
         ]);
 
         // for order

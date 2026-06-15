@@ -58,7 +58,8 @@ class PlanController extends Controller
     public function update(Request $request, int $id)
     {
         $this->service->update($request, $id);
-        return redirect('/plans')->with('success', 'Plan has been updated.');
+
+        return redirect()->back()->with('success', 'Plan updated succesfully!');
     }
 
     public function remove(int $id)

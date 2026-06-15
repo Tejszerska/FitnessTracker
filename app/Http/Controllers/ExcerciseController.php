@@ -32,7 +32,8 @@ class ExcerciseController extends Controller
         $this->service->addToDb($request);
 
         $models = $this->service->getAll();
-        return redirect('/exercises')->with('success', 'Exercise has been created.');
+        return redirect('/exercises')
+            ->with('success', 'Exercise has been created.');
     }
 
 

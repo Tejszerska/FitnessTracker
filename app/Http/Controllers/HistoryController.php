@@ -47,8 +47,8 @@ class HistoryController extends Controller
 
     public function update(Request $request, int $workoutId)
     {
-        $setsData = $request->input('sets');
-        $this->service->updateWorkout($workoutId, $setsData);
+
+        $this->service->updateWorkout($workoutId, $request);
         return redirect('/history')->with('success', 'Workout has been updated.');
     }
 

@@ -39,9 +39,8 @@ class WorkoutController extends Controller
 
     public function finish(Request $request, int $workoutId)
     {
-        $setsData = $request->input('sets');
         // dd($setsData);
-        $this->service->saveSets($workoutId, $setsData);
+        $this->service->saveSets($workoutId, $request);
 
         return redirect('/history')->with('success', 'Workout saved successfully!');
     }

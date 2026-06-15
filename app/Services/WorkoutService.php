@@ -25,8 +25,19 @@ class WorkoutService
         return Workout::where('id', $id)->where('is_active', true)->first();
     }
 
-    public function saveSets(int $workoutId, array $setsData)
+    public function saveSets(int $workoutId, Request $request)
     {
+        $validated = $request->validate([
+            'sets' => 'nullable|array',
+            'sets.*.*.weight' => 'nullable|numeric|min:0|max:1000',
+            'sets.*.*.reps' => 'nullable|integer|min:0|max:500',
+            'sets.*.*.duration_seconds' => 'nullable|integer|min:0',
+            'sets.*.*.rest_interval' => 'nullable|integer|min:0',
+            'sets.*.*.is_superset' => 'nullable|boolean',
+        ]);
+
+        $setsData = $request->input('sets', []);
+
         // 1. itarate through all exercises
         foreach ($setsData as $exerciseId => $seriesData) {
 

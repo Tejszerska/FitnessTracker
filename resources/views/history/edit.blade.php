@@ -14,6 +14,16 @@
 
         <h2 class="fw-bold mb-4 h3">Edit workout</h2>
 
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form method="GET" action="/history/edit/{{ $workout->id }}/update">
             @csrf
 

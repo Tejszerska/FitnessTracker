@@ -26,6 +26,16 @@
             </div>
             @endif
 
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <div class="card-body bg-light border-bottom p-3">
                 <form method="GET" action="/plans/manage/{{ $model->id }}" class="d-flex align-items-center gap-2">
 
@@ -69,8 +79,11 @@
                         <label class="small fw-bold text-primary mb-1">{{ $exercises->count() }} exercises </label>
                         <select name="exercise_id" class="form-select form-select-lg" required>
                             @if($exercises->isNotEmpty())
+                            <option value="" disabled {{ old('exercise_id') === null ? 'selected' : '' }}>Select exercise...</option>
                             @foreach($exercises as $exercise)
-                            <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
+                            <option value="{{ $exercise->id }}" {{ old('exercise_id') == $exercise->id ? 'selected' : '' }}>
+                                {{ $exercise->name }}
+                            </option>
                             @endforeach
                             @else
                             <option value="">No exercises match filtering criteria</option>
@@ -80,7 +93,7 @@
 
                     <div style="width: 120px;">
                         <label class="small fw-bold text-muted mb-1">Series</label>
-                        <input type="number" name="series_count" class="form-control form-control-lg" value="3" min="1" required>
+                        <input type="number" name="series_count" class="form-control form-control-lg" value="{{ old('series_count', 3) }}" min="1" required>
                     </div>
 
                     <div>
@@ -132,7 +145,6 @@
                             </div>
                         </td>
 
-                        </td>
                         <td class="text-end">
                             <div class="d-flex align-items-center justify-content-end gap-2">
 
@@ -173,7 +185,7 @@
 
         <div class="mt-4 text-center">
             <a href="/start-workout/{{ $model->id }}" class="btn btn-success btn-lg px-5 shadow fw-bold rounded-pill">
-                STAR WORKOUT NOW! <i class="bi bi-play-fill"></i>
+                START WORKOUT NOW! <i class="bi bi-play-fill"></i>
             </a>
         </div>
     </div>

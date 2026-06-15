@@ -13,6 +13,16 @@
 
         <h2 class="fw-bold mb-4 h3">Workout in progress ⚡</h2>
 
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form method="POST" action="/workout/{{ $workout->id }}/finish">
             @csrf
 

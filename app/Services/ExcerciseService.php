@@ -16,6 +16,16 @@ class ExcerciseService
 
     public function addToDb(Request $request)
     {
+
+        $request->validate([
+            'name' => 'required|string|min:3|max:100',
+            'muscle_group' => 'required|string|max:50',
+
+            'has_weight' => 'nullable|boolean',
+            'has_reps' => 'nullable|boolean',
+            'has_duration' => 'nullable|boolean',
+        ]);
+
         $model = new Exercise();
         $model->user_id = $request->input("user_id");
         /*
@@ -39,7 +49,16 @@ class ExcerciseService
 
     public function update(Request $request, $id)
     {
-        $model = Exercise::find($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|min:3|max:100',
+            'muscle_group' => 'required|string|max:50',
+            'has_weight' => 'nullable|boolean',
+            'has_reps' => 'nullable|boolean',
+            'has_duration' => 'nullable|boolean',
+        ]);
+
+        $model = $this->getById($id);
         $model->user_id = $request->input("user_id");
         /*
         @TODO AUTH

@@ -12,6 +12,20 @@
             </a>
         </div>
 
+
+
+        @if(session('success'))
+        <div class="alert alert-success py-2">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger py-2">
+            {{ session('error') }}
+        </div>
+        @endif
+
         <div class="bg-light p-3 rounded border mb-4">
             <form method="GET" class="d-flex gap-2">
 
@@ -37,18 +51,6 @@
                 </div>
             </form>
         </div>
-
-        @if(session('success'))
-        <div class="alert alert-success py-2">
-            {{ session('success') }}
-        </div>
-        @endif
-
-        @if(session('error'))
-        <div class="alert alert-danger py-2">
-            {{ session('error') }}
-        </div>
-        @endif
 
         <div class="card border-0 shadow-sm">
             <table class="table table-hover align-middle mb-0">
