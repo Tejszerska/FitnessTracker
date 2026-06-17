@@ -7,7 +7,7 @@
 
         <div class="mb-4 d-flex justify-content-between align-items-end">
             <div>
-                <h2 class="fw-bold text-dark mb-0">Hi, {{ Auth::check() ? Auth::user()->name : 'User' }}!</h2>
+                <h2 class="fw-bold text-dark mb-0">Hi, {{ Auth::check() ? Auth::user()->first_name : 'User' }}!</h2>
                 <p class="text-muted mb-0">Ready for today's challenge?</p>
             </div>
         </div>

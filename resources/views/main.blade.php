@@ -60,15 +60,27 @@
                         <a class="nav-link" href="/history">History</a>
                     </li>
 
+                    @auth
                     <li class="nav-item ms-lg-3 border-start ps-lg-3 border-secondary">
-                        <a class="btn btn-outline-light btn-sm px-3" href="logout.php">Wyloguj</a>
+                        <form method="POST" action="/logout" class="inline">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary btn-sm px-3">Logout</button>
                     </li>
 
-                    <li class="nav-item ms-lg-3">
-                        <a class="btn btn-outline-primary btn-sm px-3" href="login.php">Zaloguj</a>
+                    </form>
+                    @else
+                    <li class="nav-item ms-lg-3 border-start ps-lg-3 border-secondary">
+                        <a href="/login" class="btn btn-primary btn-sm px-3">Sign In</a>
                     </li>
-                </ul>
+
+                    <li class="nav-item">
+                        <a href="/register" class="btn btn-outline-primary btn-sm px-3">Sign Up</a>
+                    </li>
+
+                    @endauth
             </div>
+            </ul>
+        </div>
         </div>
     </nav>
 

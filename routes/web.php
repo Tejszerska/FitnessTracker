@@ -6,9 +6,20 @@ use App\Http\Controllers\ExcerciseController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\UserController;
 
-
+// ==== 
+// USER & OTHER
+// ==== 
 Route::get("/", [HomeController::class, "index"]);
+Route::get("/register", [UserController::class, "registerPage"]);
+Route::post("/register", [UserController::class, "registerUser"]);
+Route::get("/login", [UserController::class, "loginPage"]);
+Route::post("/login", [UserController::class, "loginUser"]);
+Route::post("/logout", [UserController::class, "logoutUser"]);
+
+
+
 
 // =========
 // EXERCISES 
