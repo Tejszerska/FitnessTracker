@@ -58,12 +58,10 @@ class UserService
             $request->session()->regenerate();
 
             // Redirect to intended page or home
-            return redirect()->intended('/');
+            return true;
         }
 
         // If login fails, redirect back with error
-        return back()
-            ->withErrors(['email' => 'The provided credentials do not match our records.'])
-            ->onlyInput('email');
+        return false;
     }
 }

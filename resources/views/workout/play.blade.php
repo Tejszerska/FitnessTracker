@@ -58,9 +58,10 @@
 
                                     @if($ex->has_weight)
                                     <td class="p-1">
-                                        <input type="number"
+                                        <input type="number" step="0.25"
                                             name="sets[{{ $ex->id }}][{{ $i }}][weight]"
-                                            class="form-control form-control-sm text-center">
+                                            class="form-control form-control-sm text-center"
+                                            value="{{ old("sets.{$ex->id}.{$i}.weight") }}">
                                     </td>
                                     @endif
 
@@ -68,7 +69,8 @@
                                     <td class="p-1">
                                         <input type="number"
                                             name="sets[{{ $ex->id }}][{{ $i }}][reps]"
-                                            class="form-control form-control-sm text-center">
+                                            class="form-control form-control-sm text-center"
+                                            value="{{ old("sets.{$ex->id}.{$i}.reps") }}">
                                     </td>
                                     @endif
 
@@ -76,7 +78,8 @@
                                     <td class="p-1">
                                         <input type="number"
                                             name="sets[{{ $ex->id }}][{{ $i }}][duration_seconds]"
-                                            class="form-control form-control-sm text-center">
+                                            class="form-control form-control-sm text-center"
+                                            value="{{ old("sets.{$ex->id}.{$i}.duration_seconds") }}">
                                     </td>
                                     @endif
 
@@ -84,13 +87,15 @@
                                         <input type="number"
                                             name="sets[{{ $ex->id }}][{{ $i }}][rest_interval]"
                                             class="form-control form-control-sm text-center text-muted"
-                                            placeholder="s">
+                                            placeholder="s"
+                                            value="{{ old("sets.{$ex->id}.{$i}.rest_interval") }}">
                                     </td>
 
                                     <td class="text-center">
                                         <input type="checkbox" value="1"
                                             name="sets[{{ $ex->id }}][{{ $i }}][is_superset]"
-                                            class="form-check-input">
+                                            class="form-check-input"
+                                            {{ old("sets.{$ex->id}.{$i}.is_superset") ? 'checked' : '' }}>
                                     </td>
                                 </tr>
                                 @endfor

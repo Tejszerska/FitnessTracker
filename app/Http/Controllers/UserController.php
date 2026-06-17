@@ -39,7 +39,14 @@ class UserController extends Controller
 
     public function loginUser(Request $request)
     {
-        $this->service->login($request);
-        return redirect('/');
+        $auth = $this->service->login($request);
+        if ($auth === true) {
+
+            return redirect('/');
+        } else {
+            return back()
+                ->withErrors(['email' => 'The provided credentials do not match our records.'])
+                ->onlyInput('email');
+        }
     }
 }

@@ -80,7 +80,7 @@
 
             @else
             <div class="col-12">
-                <div class="text-center py-5 bg-white rounded shadow-sm border" style="max-width: 600px; margin: 0 auto;">
+                <div class="text-center py-5 bg-white rounded shadow-sm border w-100">
                     <div class="mb-3">
                         <i class="bi bi-journal-plus display-4 text-muted opacity-50"></i>
                     </div>

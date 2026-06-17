@@ -5,13 +5,18 @@ namespace App\Services;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class ExcerciseService
 {
 
     public function getAll(): Collection
     {
-        return Exercise::where("is_active", "=", true)->get();
+        return Exercise::where("is_active", "=", true)
+            ->where(function ($query) {
+                $query->whereNull('user_id')
+                    ->orWhere('user_id', Auth::id());
+            })->get();
     }
 
     public function addToDb(Request $request)
@@ -27,11 +32,7 @@ class ExcerciseService
         ]);
 
         $model = new Exercise();
-        $model->user_id = $request->input("user_id");
-        /*
-        just for now - later use:
-        $model->user_id = auth()->id();
-        */
+        $model->user_id = Auth::id();
         $model->name = $request->input('name');
         $model->muscle_group = $request->input('muscle_group');
         $model->is_active = true;
@@ -44,7 +45,11 @@ class ExcerciseService
 
     public function getById(int $id)
     {
-        return Exercise::find($id);
+        return Exercise::where('id', $id)
+            ->where(function ($query) {
+                $query->whereNull('user_id')
+                    ->orWhere('user_id', Auth::id());
+            })->first();
     }
 
     public function update(Request $request, $id)
@@ -58,28 +63,25 @@ class ExcerciseService
             'has_duration' => 'nullable|boolean',
         ]);
 
-        $model = $this->getById($id);
-        $model->user_id = $request->input("user_id");
-        /*
-        @TODO AUTH
-        just for now - later use:
-        $model->user_id = auth()->id();
-        */
-        $model->name = $request->input('name');
-        $model->muscle_group = $request->input('muscle_group');
-        $model->is_active = true;
+        $model = Exercise::where('id', $id)->where('user_id', Auth::id())->first();
 
-        $model->has_weight = $request->has('has_weight');
-        $model->has_reps = $request->has('has_reps');
-        $model->has_duration = $request->has('has_duration');
-        $model->save();
+        if ($model) {
+            $model->name = $request->input('name');
+            $model->muscle_group = $request->input('muscle_group');
+            $model->has_weight = $request->has('has_weight');
+            $model->has_reps = $request->has('has_reps');
+            $model->has_duration = $request->has('has_duration');
+            $model->save();
+        }
     }
 
     public function remove(int $id)
     {
-        $exerciseToRemove = Exercise::find($id);
-        $exerciseToRemove->is_active = 0;
-        $exerciseToRemove->save();
+        $exerciseToRemove = Exercise::where('id', $id)->where('user_id', Auth::id())->first();
+        if ($exerciseToRemove) {
+            $exerciseToRemove->is_active = 0;
+            $exerciseToRemove->save();
+        }
     }
 
     public function getFiltered(Request $request): Collection
@@ -94,8 +96,12 @@ class ExcerciseService
             if ($request->input('filter_source') === 'system') {
                 $query->whereNull('user_id');
             } elseif ($request->input('filter_source') === 'user') {
-                $query->whereNotNull('user_id');
+                $query->where('user_id', Auth::id());
             }
+        } else {
+            $query->where(function ($q) {
+                $q->whereNull('user_id')->orWhere('user_id', Auth::id());
+            });
         }
 
         return $query->get();

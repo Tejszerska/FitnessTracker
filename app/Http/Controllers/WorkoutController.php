@@ -40,8 +40,12 @@ class WorkoutController extends Controller
     public function finish(Request $request, int $workoutId)
     {
         // dd($setsData);
-        $this->service->saveSets($workoutId, $request);
+        $hasSavedSets = $this->service->saveSets($workoutId, $request);
 
-        return redirect('/history')->with('success', 'Workout saved successfully!');
+        if ($hasSavedSets) {
+            return redirect('/history')->with('success', 'Workout saved successfully!');
+        } else {
+            return redirect('/history')->with('error', 'Empty workout will not be saved in history.');
+        }
     }
 }

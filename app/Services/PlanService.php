@@ -6,12 +6,14 @@ use App\Models\Plan;
 use App\Models\PlanItem;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class PlanService
 {
     public function getAll(Request $request): Collection
     {
-        $query = Plan::where("is_active", "=", true);
+        $query = Plan::where("is_active", "=", true)
+            ->where("user_id", Auth::id());
 
         if ($request->filled('search_name')) {
             $searchTerm = $request->input('search_name');
@@ -29,7 +31,7 @@ class PlanService
 
 
         $model = new Plan();
-        $model->user_id = "6"; // @TODO: auth()->id();
+        $model->user_id = Auth::id();
         $model->name = $request->input('plan_name');
         $model->is_active = true;
         $model->save();
@@ -38,7 +40,10 @@ class PlanService
 
     public function getById(int $id)
     {
-        return Plan::where('id', $id)->where('is_active', true)->first();
+        return Plan::where('id', $id)
+            ->where('is_active', true)
+            ->where('user_id', Auth::id())
+            ->first();
     }
 
     public function update(Request $request, $id)
@@ -47,17 +52,20 @@ class PlanService
             'plan_name' => 'required|string|min:3|max:100',
         ]);
 
-
-        $model = Plan::find($id);
-        $model->name = $request->input('plan_name');
-        $model->save();
+        $model = $this->getById($id);
+        if ($model) {
+            $model->name = $request->input('plan_name');
+            $model->save();
+        }
     }
 
     public function remove(int $id)
     {
-        $PlanToRemove = Plan::find($id);
-        $PlanToRemove->is_active = 0;
-        $PlanToRemove->save();
+        $planToRemove = $this->getById($id);
+        if ($planToRemove) {
+            $planToRemove->is_active = 0;
+            $planToRemove->save();
+        }
     }
 
     public function addExerciseToPlan(int $planId, Request $request)

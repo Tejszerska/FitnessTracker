@@ -33,7 +33,7 @@
             <div class="col-md-6">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body p-4 d-flex flex-column">
-                        <h6 class="fw-bold text-muted text-uppercase small mb-3">Recent activity</h6>
+                        <h6 class="fw-bold text-muted text-uppercase small mb-3">Last recorded workout:</h6>
 
                         @if($lastWorkout && $lastWorkout->plan)
                         <h4 class="fw-bold mb-1 text-truncate">{{ $lastWorkout->plan->name }}</h4>

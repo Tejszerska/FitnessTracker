@@ -4,16 +4,21 @@ namespace App\Services;
 
 use App\Models\Workout;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class HistoryService
 {
     public function getAllWorkouts(Request $request)
     {
-        $query = Workout::with('plan')->where('is_active', true);
+        $query = Workout::with('plan')
+            ->has('sets')
+            ->where('is_active', true)
+            ->where('user_id', Auth::id());
 
         if ($request->filled('filter_date')) {
-            $query->whereDate('workout_date', $request->input('filter_date'));
+            $query->whereDate('workout_date', $request->input('filter_date'))
+                ->where('user_id', Auth::id());
         }
 
         return $query->orderBy('workout_date', 'desc')->get();
@@ -24,18 +29,23 @@ class HistoryService
         return Workout::with(['plan', 'sets.exercise'])
             ->where('id', $id)
             ->where('is_active', true)
+            ->where('user_id', Auth::id())
             ->first();
     }
 
     public function removeWorkout(int $id)
     {
-        $workoutToRemove = Workout::find($id);
-        $workoutToRemove->is_active = 0;
-        $workoutToRemove->save();
+        $workoutToRemove = Workout::where('id', $id)->where('user_id', Auth::id())->first();
+        if ($workoutToRemove) {
+            $workoutToRemove->is_active = 0;
+            $workoutToRemove->save();
+        }
     }
 
     public function updateWorkout(int $workoutId, Request $request)
     {
+        $workout = Workout::where('id', $workoutId)->where('user_id', Auth::id())->first();
+        if (!$workout) return;
 
         $validated = $request->validate([
             'sets' => 'nullable|array',
