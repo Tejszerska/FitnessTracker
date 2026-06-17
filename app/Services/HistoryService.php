@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 
 class HistoryService
 {
-    public function getAllWorkouts()
+    public function getAllWorkouts(Request $request)
     {
-        return Workout::with('plan')
-            ->where('is_active', true)
-            ->orderBy('workout_date', 'desc')
-            ->get();
+        $query = Workout::with('plan')->where('is_active', true);
+
+        if ($request->filled('filter_date')) {
+            $query->whereDate('workout_date', $request->input('filter_date'));
+        }
+
+        return $query->orderBy('workout_date', 'desc')->get();
     }
 
     public function getWorkoutDetails(int $id)

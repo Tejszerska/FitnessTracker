@@ -21,9 +21,9 @@ class HistoryController extends Controller
         $this->planService = $pService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $workouts = $this->service->getAllWorkouts();
+        $workouts = $this->service->getAllWorkouts($request);
         return view('history.index', ['workouts' => $workouts]);
     }
 
@@ -53,7 +53,7 @@ class HistoryController extends Controller
     }
 
 
-    public function remove(int $id)
+    public function remove(int $id, Request $request)
     {
         $model = $this->service->getWorkoutDetails($id);
         if ($model === null) {
@@ -62,7 +62,7 @@ class HistoryController extends Controller
 
         $this->service->removeWorkout($id);
 
-        $models = $this->service->getAllWorkouts();
+        $models = $this->service->getAllWorkouts($request);
         return redirect('/history')->with('success', 'Workout has been deleted.');
     }
 }

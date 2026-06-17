@@ -9,9 +9,16 @@ use Illuminate\Database\Eloquent\Collection;
 
 class PlanService
 {
-    public function getAll(): Collection
+    public function getAll(Request $request): Collection
     {
-        return Plan::where("is_active", "=", true)->get();
+        $query = Plan::where("is_active", "=", true);
+
+        if ($request->filled('search_name')) {
+            $searchTerm = $request->input('search_name');
+            $query->where('name', 'like', '%' . $searchTerm . '%');
+        }
+
+        return $query->orderBy('created_at', 'desc')->get();
     }
 
     public function addToDb(Request $request)

@@ -20,9 +20,9 @@ class PlanController extends Controller
 
 
     // == CRUD for plan   ==
-    public function index()
+    public function index(Request $request)
     {
-        $models = $this->service->getAll();
+        $models = $this->service->getAll($request);
         return view('plan.index', ["models" => $models, 'muscleGroups' => MuscleGroup::cases()]);
     }
 

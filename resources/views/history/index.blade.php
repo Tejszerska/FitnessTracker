@@ -28,6 +28,27 @@
         </div>
         @endif
 
+        <div class="card-body bg-light border-bottom p-3 mb-4 rounded shadow-sm">
+            <form method="GET" action="/history" class="d-flex align-items-center gap-2">
+
+                <div class="fw-bold small text-uppercase text-muted text-nowrap">
+                    <i class="bi bi-calendar-event"></i> Filter by date:
+                </div>
+
+                <div class="flex-grow-1" style="max-width: 250px;">
+                    <input type="date"
+                        name="filter_date"
+                        class="form-control form-control-sm border-0"
+                        value="{{ request('filter_date') }}"
+                        onchange="this.form.submit()">
+                </div>
+
+                <a href="/history" class="btn btn-link btn-sm text-muted text-decoration-none" title="Clear filter">
+                    <i class="bi bi-x-circle"></i>
+                </a>
+            </form>
+        </div>
+
         <div class="card border-0 shadow-sm">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
@@ -77,8 +98,7 @@
                 <div class="mb-3">
                     <i class="bi bi-calendar-x display-4 text-muted opacity-50"></i>
                 </div>
-                <h5 class="text-muted">No workouts recorded yet.</h5>
-                <p class="text-muted small mb-0">Hit the gym and start tracking!</p>
+                <h5 class="text-muted">No workouts recorded.</h5>
             </td>
         </tr>
         @endif
